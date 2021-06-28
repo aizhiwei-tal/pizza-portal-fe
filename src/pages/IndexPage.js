@@ -1,7 +1,7 @@
 import { connect } from 'dva';
 import styles from './IndexPage.scss'
 
-// 引入路由需要的组件
+// 引入路由需要的组件 azw
 import { Switch, Route , Redirect  } from 'dva/router';
  
 
