@@ -2,6 +2,7 @@ import React from 'react'
 import { Route } from 'dva/router' 
 import { Redirect } from 'dva/router';
 import NoMatch from '../components/NoMatch';
+import dynamic from 'dva/dynamic' ;
 
 // export default function subRoutes(route) {
 //   console.log(route)
@@ -12,12 +13,21 @@ import NoMatch from '../components/NoMatch';
 //   )
 // }
 
+// 解决动态加载路由组件
+const dynamicCom = (app, models, component, routes) => dynamic({
+  app,
+  models: () => models,
+  component: () => 
+    component().then( res => {
+      // console.log('aaaiii', res)
+      const Component = res.default || res
+      return props => <Component {...props} app={app} routes={routes} />
+    })
+})
 
-export default function subRoutes({routes, component: Component}) {
+export default function subRoutes({routes, component, app, model}) {
   return (
-    <Route 
-        render={props => <Component {...props} routes={routes} />} 
-    />
+    <Route  component  = {dynamicCom(app, model, component, routes)} />
   )
 }
 
